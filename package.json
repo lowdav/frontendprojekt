@@ -1,0 +1,15 @@
+{
+  "name": "frontend-projekt",
+  "version": "1.0.0",
+  "description": "Projektuppgift",
+  "author": "dalo2101",
+  "license": "ISC",
+  "source": "src/index.html",
+  "scripts": {
+    "start": "parcel",
+    "build": "parcel build"
+  },
+  "devDependencies": {
+    "parcel": "^2.13.3"
+  }
+}
