@@ -1,7 +1,36 @@
-import issIcon from "../img/iss.png"; // Importera ikon via Parcel
+//importera ikon med Parcel för senare användning som googlemaps-ikon.
+import issIcon from "../img/iss.png";
 
-let lat = 59.3293;
-let lon = 18.0686;
+const googleApiKey = "AIzaSyB5d-KsEdbbAlcWWLcjCptAxYjqCLBHUqU";
+
+let lat, lon;
+
+/**
+ * Hämta ISS position och ladda kartan. 
+ */
+
+async function loadPosition() {
+    try {
+        const response = await fetch ("http://api.open-notify.org/iss-now.json");
+        if(!response.ok) {
+            throw new Error("Hämtning av data fungerade inte");
+            //Glöm inte - lägg till användarinfo om detta händer
+        }
+        const location = await response.json();
+        console.log(location);
+
+        lat = parseFloat(location.iss_position.latitude);
+        lon = parseFloat(location.iss_position.longitude);
+
+        console.log(lat);
+        console.log(lon);
+
+        initMap(lat, lon);
+
+    } catch(error) {
+        console.error(error);
+    }
+}
 
 /**
  * Kod direkt hämtad från Google maps.
@@ -9,16 +38,20 @@ let lon = 18.0686;
  */
 
 (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
-    key: "AIzaSyB5d-KsEdbbAlcWWLcjCptAxYjqCLBHUqU",
+    key: googleApiKey,
     v: "weekly",
   });
-
-
 
 // Initiera och lägg till kartan
 let map;
 
-async function initMap() {
+/**
+ * Kod hämtad från Google maps API dokumentation, men jag har ersatt statiskt exempel med variabler för
+ * latitiud och longitud.
+ * @param {number} lat för platsen
+ * @param {number} lon för platsen
+ */
+async function initMap(lat, lon) {
   // Position att visa
   const position = { lat: lat, lng: lon };
 
@@ -47,4 +80,4 @@ const marker = new AdvancedMarkerElement({
 }); 
 }
 
-initMap();
+loadPosition();
