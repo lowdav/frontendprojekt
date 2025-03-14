@@ -22,10 +22,11 @@ async function loadPosition() {
         lat = parseFloat(location.iss_position.latitude);
         lon = parseFloat(location.iss_position.longitude);
 
-        console.log(lon);
         console.log(lat);
+        console.log(lon);
 
-        initMap(lon, lat);
+        initMap(lat, lon);
+        getLocationInfo(lat, lon);
 
     } catch(error) {
         console.error(error);
@@ -51,7 +52,7 @@ let map;
  * @param {number} lat för platsen
  * @param {number} lon för platsen
  */
-async function initMap(lon, lat) {
+async function initMap(lat, lon) {
   // Position att visa
   const position = { lat: lat, lng: lon };
 
@@ -81,3 +82,51 @@ const marker = new AdvancedMarkerElement({
 }
 
 loadPosition();
+
+/**
+ * Hämtar information om platsen som motsvarar koordinaterna
+ * @param {number} lat 
+ * @param {number} lon 
+ */
+
+async function getLocationInfo(lat, lon) {
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=${googleApiKey}`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log(data);
+
+        if (data.status === "OK" && data.results.length > 0) {
+            let locationName = null;
+
+            // Försök hitta ett land
+            for (let result of data.results) {
+                if (result.types.includes("country")) {
+                    locationName = result.formatted_address;
+                    console.log(locationName);
+                    break;
+                }
+            }
+
+            // Om inget land hittas, leta efter annan info (stad, region, hav)
+            if (!locationName) {
+                for (let result of data.results) {
+                    if (result.types.includes("natural_feature") || result.types.includes("locality") || result.types.includes("administrative_area_level_1")) {
+                        locationName = result.formatted_address;
+                        console.log(locationName);
+                        break;
+                    }
+                }
+            }
+            // Om inget finns lagra fallback-meddelande
+            if (!locationName) {
+            locationName = "Okänd plats - ISS befinner sig troligen över hav";
+            console.log(locationName);
+        }
+        } else {
+            console.log("Ingen plats hittades.");
+        }
+
+    } catch (error) {
+        console.error("Ett fel uppstod:", error);
+    }}
