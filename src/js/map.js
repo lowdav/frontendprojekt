@@ -22,10 +22,10 @@ async function loadPosition() {
         lat = parseFloat(location.iss_position.latitude);
         lon = parseFloat(location.iss_position.longitude);
 
-        console.log(lat);
         console.log(lon);
+        console.log(lat);
 
-        initMap(lat, lon);
+        initMap(lon, lat);
 
     } catch(error) {
         console.error(error);
@@ -51,7 +51,7 @@ let map;
  * @param {number} lat för platsen
  * @param {number} lon för platsen
  */
-async function initMap(lat, lon) {
+async function initMap(lon, lat) {
   // Position att visa
   const position = { lat: lat, lng: lon };
 
