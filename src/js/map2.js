@@ -5,7 +5,21 @@ const googleApiKey = "AIzaSyB5d-KsEdbbAlcWWLcjCptAxYjqCLBHUqU";
 
 let lat, lon, temperature, locationName, altitude, velocity, visibility, timestamp;
 
-getISSData();
+document.getElementById("icon").addEventListener("click", () => {
+    console.log("Klick på ikonen registrerat");
+    icon.classList.add("rotate");
+    startMap(3000);
+});
+
+
+
+function startMap(delay) {
+    setTimeout(() => {
+        document.getElementById("intro").style.display = "none"; 
+        document.getElementById("map-container").style.display = "block";
+        getISSData();
+    }, delay);
+}
 
 /**
  * Hämta data om ISS
@@ -219,20 +233,21 @@ async function getLocationInfo(lat, lon) {
         const container = document.getElementById("info-container");
         container.innerHTML = "";
 
-        function addInfo (label, value) {
+        function addInfo (value) {
             if (value) {
                 const div = document.createElement("div");
                 div.classList.add("card");
-                div.innerHTML = `<p>${label} ${value}</p>`;
+                div.innerHTML = `<p>${value}</p>`;
                 container.appendChild(div);
             }
         }
 
-        addInfo("Koordinater:", `<br>lat ${lat}<br>lon ${lon}`);
-        addInfo("Plats:", locationName);
-        addInfo("Temperatur:", `${temperature} celsius vid platsen`);
-        addInfo("Höjd:", `${altitude} km över jorden`); 
-        addInfo("Hastighet:", `${velocity} km/h`);
-        addInfo("Synlighet:", visibility);
-        addInfo("Data hämtad:", timestamp);
-    }
+        addInfo(`Lat ${lat}`);
+        addInfo(`Lon ${lon}`);
+        addInfo(locationName);
+        addInfo(`${temperature} celsius vid platsen`);
+        addInfo(`${altitude} km över jorden`); 
+        addInfo(`${velocity} km/h`);
+        addInfo(visibility);
+        addInfo(timestamp);
+    };
