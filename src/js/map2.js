@@ -5,11 +5,65 @@ const googleApiKey = "AIzaSyB5d-KsEdbbAlcWWLcjCptAxYjqCLBHUqU";
 
 let lat, lon, temperature, locationName, altitude, velocity, visibility, timestamp;
 
+getISSData();
+
 /**
- * Hämta ISS position och anropar övriga funktioner med hämtade koordinatern.
+ * Hämta data om ISS
+ * Dokumentation https://wheretheiss.at/w/developer
+ */
+async function getISSData() {
+    const url = "https://api.wheretheiss.at/v1/satellites/25544";
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error("Testar att hämta från annan källa!");
+        }
+
+        const data = await response.json();
+        console.log("ISS Data:", data);
+
+        lat = data.latitude;
+        lon = data.longitude;
+        altitude = Math.floor(data.altitude); 
+        velocity = Math.floor(data.velocity); 
+        visibility = data.visibility;
+
+        const date = new Date(data.timestamp * 1000);
+        timestamp = date.toLocaleString("sv-SE", { timeZone: "Europe/Stockholm" });
+
+
+
+
+        if (visibility === "daylight") {
+            visibility = "ISS är synlig från jorden";
+        } else {
+            visibility = "ISS kan just nu inte ses från jorden";
+        }
+        console.log(`Höjd ${altitude}`);
+        console.log(`Hastighet ${velocity}`);
+        console.log(visibility);
+        console.log(timestamp);
+
+        await Promise.all([
+            initMap(lat, lon),
+            getLocationInfo(lat, lon),
+            getTemperature(lat, lon),
+        ]);
+
+        printInfo();
+
+    } catch (error) {
+        console.error("Fel vid hämtning av ISS-data:", error);
+        loadPosition();
+    }
+}
+
+/**
+ * Fallback-lösning för att hämta ISS position och anropar övriga funktioner med hämtade koordinaterna.
+ * Hämtar bara lat och lon.
  * Dokumentation http://open-notify.org
  */
-
 async function loadPosition() {
     try {
         const response = await fetch ("http://api.open-notify.org/iss-now.json");
@@ -20,6 +74,7 @@ async function loadPosition() {
         const location = await response.json();
         console.log(location);
 
+        // OBS att open-notify skikar svar som sträng, inte nummer, så man måste använda parseFloat.
         lat = parseFloat(location.iss_position.latitude);
         lon = parseFloat(location.iss_position.longitude);
 
@@ -30,7 +85,6 @@ async function loadPosition() {
             initMap(lat, lon),
             getLocationInfo(lat, lon),
             getTemperature(lat, lon),
-            getISSData()
         ]);
 
         printInfo();
@@ -86,8 +140,6 @@ const marker = new AdvancedMarkerElement({
     content: iconWrapper,
 }); 
 }
-
-loadPosition();
 
 /**
  * Hämtar information om platsen som motsvarar koordinaterna
@@ -162,52 +214,6 @@ async function getLocationInfo(lat, lon) {
             console.error("Ett fel uppstod:", error);
         }
     }
-/**
- * Hämta data om ISS
- * Dokumentation https://wheretheiss.at/w/developer
- */
-    async function getISSData() {
-        const url = "https://api.wheretheiss.at/v1/satellites/25544";
-    
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error("Kunde inte hämta ISS-data");
-            }
-    
-            const data = await response.json();
-            console.log("ISS Data:", data);
-    
-            // Uppdatera variabler
-            // lat = data.latitude;
-            // lon = data.longitude;
-            altitude = Math.floor(data.altitude); // Höjd i kilometer
-            velocity = Math.floor(data.velocity); // Hastighet i km/h
-            visibility = data.visibility;
-
-            const date = new Date(data.timestamp * 1000);
-            timestamp = date.toLocaleString("sv-SE", { timeZone: "Europe/Stockholm" });
-
-
-
-
-            if (visibility === "daylight") {
-                visibility = "ISS är synlig från jorden";
-            } else {
-                visibility = "ISS kan just nu inte ses från jorden";
-            }
-            console.log(`Höjd ${altitude}`);
-            console.log(`Hastighet ${velocity}`);
-            console.log(visibility);
-            console.log(timestamp);
-
-        } catch (error) {
-            console.error("Fel vid hämtning av ISS-data:", error);
-        }
-    }
-    
-
-
 
     function printInfo() {
         const container = document.getElementById("info-container");
@@ -222,12 +228,11 @@ async function getLocationInfo(lat, lon) {
             }
         }
 
-        addInfo("Koordinater:", `lat:${lat}, lon:${lon}`);
+        addInfo("Koordinater:", `<br>lat ${lat}<br>lon ${lon}`);
         addInfo("Plats:", locationName);
-        addInfo("Temperatur:", `${temperature} celsius`);
+        addInfo("Temperatur:", `${temperature} celsius vid platsen`);
         addInfo("Höjd:", `${altitude} km över jorden`); 
         addInfo("Hastighet:", `${velocity} km/h`);
         addInfo("Synlighet:", visibility);
         addInfo("Data hämtad:", timestamp);
     }
-
