@@ -1,0 +1,48 @@
+.wrapper {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.intro{
+max-width: 60ch;
+padding: 15px;
+margin: auto;
+}
+
+#icon {
+    cursor: pointer;
+}
+
+img{
+    max-width: 400px;
+    height: auto;
+    display: block;
+    margin: auto;
+    }
+
+.bold{
+    font-weight: 700;
+    margin: 0;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.rotate {
+    animation: spin 3s linear forwards;
+}
+
+@media (min-width: 1000px) {
+    .wrapper{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-content: center;
+        align-items: center;
+    }
+}
