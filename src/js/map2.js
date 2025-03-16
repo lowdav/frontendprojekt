@@ -5,6 +5,11 @@ const googleApiKey = "AIzaSyB5d-KsEdbbAlcWWLcjCptAxYjqCLBHUqU";
 
 let lat, lon, temperature, locationName, altitude, velocity, visibility, timestamp;
 
+/**
+ * Eventlyssnare för att lyssna efter klick på ikonen och starta
+ * animering av ikonen. startMap anropas med tid som den ska fördröjas 
+ * så att ikonen hinner rotera klart.
+ */
 document.getElementById("icon").addEventListener("click", () => {
     console.log("Klick på ikonen registrerat");
     icon.classList.add("rotate");
@@ -12,10 +17,14 @@ document.getElementById("icon").addEventListener("click", () => {
 });
 
 
-
+/**
+ * Fördröjning av inhämtning av data samt döljer introsidan och 
+ * tar fram kartan. 
+ * @param {number} delay antal millisekunder fördröjningen ska vara. 
+ */
 function startMap(delay) {
     setTimeout(() => {
-        document.getElementById("intro").style.display = "none"; 
+        document.getElementById("wrapper").style.display = "none"; 
         document.getElementById("map-container").style.display = "block";
         getISSData();
     }, delay);
@@ -161,7 +170,6 @@ const marker = new AdvancedMarkerElement({
  * @param {number} lat 
  * @param {number} lon 
  */
-
 async function getLocationInfo(lat, lon) {
     const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=${googleApiKey}`;
     try {
@@ -229,10 +237,17 @@ async function getLocationInfo(lat, lon) {
         }
     }
 
+/**
+ * Skriver ut hämtad information till DOM
+ */
     function printInfo() {
         const container = document.getElementById("info-container");
         container.innerHTML = "";
 
+        /**
+         * 
+         * @param {string} value Värdet som ska skrivas ut.
+         */
         function addInfo (value) {
             if (value) {
                 const div = document.createElement("div");
@@ -250,4 +265,12 @@ async function getLocationInfo(lat, lon) {
         addInfo(`${velocity} km/h`);
         addInfo(visibility);
         addInfo(timestamp);
-    };
+        addInfo("Klicka på valfri textruta för att uppdatera sidan");
+    
+        document.querySelectorAll(".card").forEach(card => {
+            card.addEventListener("click", () => {
+                console.log("Klick på kort registrerat");
+                getISSData(); 
+            });
+        });
+    }

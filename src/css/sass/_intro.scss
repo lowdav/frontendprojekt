@@ -1,5 +1,9 @@
+.wrapper {
+    max-width: 1200px;
+    margin: auto;
+}
+
 .intro{
-height: 100vh;
 max-width: 60ch;
 display: flex;
 flex-direction: column;
@@ -14,11 +18,15 @@ padding: 15px;
 }
 
 img{
-    max-width: 80%;
+    max-width: 400px;
     height: auto;
     display: block;
     margin: auto;
     }
+
+.bold{
+    font-weight: 700;
+}
 
 @keyframes spin {
     from {
@@ -33,4 +41,12 @@ img{
     animation: spin 3s linear forwards;
 }
 
+@media (min-width: 1000px) {
+    .wrapper{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
 
+    }
+}
