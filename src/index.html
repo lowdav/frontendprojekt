@@ -17,12 +17,9 @@
           <li>Om den första datakällan inte kan leverera svar hämtas koordinater från ett sekundärt API som endast har koordinater.</li>
           <li>Koordinaterna används för att hämta en Google-karta över platsen och placera ut en ikon föreställande ISS vid aktuell position på kartan.</li>
           <li>Koordinaterna används igen för så kallad reverse geokodning, som hämtar informaton om vilken plats koordinaterna tillhör. Även detta från Google, men från ett annat API.</li>
-          <li>Eftersom ISS ofta befinner sig över vatten finns det ibland ingen namngiven plats att visa, då visas ett standardmeddelnade. Jag lyckades konstigt nog inte hitta ett API som returnerar namn på hav om koordinaterna är i havet.</li>
-          <li>Slutlien används koordinaterna för att hämta information från ytterligare ett API om aktuell temperatur vid positionen på jorden.</li>
-          <li>Informationen skrivs ut dynamiskt i form av små textkort.</li>
-          <li>Klicka på något av korten för att hämta ISS position igen. ISS rör sig snabbt! Vänta 30 sekunder och testa.</li> 
-        </li>
+          <li>Ett tredje API hämtar aktuell temperatur för platsen.</li>
         </ul>
+        <a href="docs/index.html">Dokumentation med JSDoc</a>
         </div>
         <div id="icon-container">
         <p class="bold">Klicka på ISS för att starta!</p> 
