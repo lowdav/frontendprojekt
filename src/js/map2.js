@@ -257,8 +257,8 @@ async function getLocationInfo(lat, lon) {
             }
         }
 
-        addInfo(`Lat ${lat.tofixed(4)}`);
-        addInfo(`Lon ${lon.tofixed(4)}`);
+        addInfo(`Lat ${lat.toFixed(4)}`);
+        addInfo(`Lon ${lon.toFixed(4)}`);
         addInfo(locationName);
         addInfo(`${temperature} celsius vid platsen`);
         addInfo(`${altitude} km över jorden`); 
