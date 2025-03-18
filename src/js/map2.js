@@ -13,6 +13,7 @@ let lat, lon, temperature, locationName, altitude, velocity, visibility, timesta
 document.getElementById("icon").addEventListener("click", () => {
     console.log("Klick på ikonen registrerat");
     icon.classList.add("rotate");
+    document.getElementById("intro").classList.add("fade-out");
     startMap(3000);
 });
 
@@ -29,6 +30,7 @@ function startMap(delay) {
         getISSData();
     }, delay);
 }
+
 
 /**
  * Hämta data om ISS
@@ -110,6 +112,7 @@ async function loadPosition() {
             getTemperature(lat, lon),
         ]);
 
+        
         printInfo();
 
     } catch(error) {
