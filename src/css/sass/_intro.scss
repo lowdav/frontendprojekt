@@ -1,22 +1,32 @@
+@use '/src/css/sass/variables' as *;
+
 html {
-    background-color: black;
+    background-color: $htmlbackground;
 }
 
 main {
-    // max-width: 1600px;
     margin: auto;
 }
 
 .wrapper {
     max-width: 100vw;
     margin: auto;
-    color: white;
+    color: $textcolor;
 }
 
 .intro{
 max-width: 60ch;
 padding: 15px;
 margin: auto;
+
+a {
+    color: $linkcolor;
+}
+
+p {
+    line-height: 1.4;
+}
+
 }
 
 #icon {
@@ -30,8 +40,9 @@ img{
     margin: auto;
     }
 
-.bold{
+#cta{
     font-weight: 700;
+    padding-top: 50px;
     margin: 0;
 }
 
