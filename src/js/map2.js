@@ -14,8 +14,6 @@ let lat, lon, temperature, locationName, altitude, velocity, visibility, timesta
 function printJsonContent(data) {
     const title = data.title;
     const content = data.content;
-    const link = data.link;
-    const linktext = data.linktext;
     const cta = data.cta;
 
     const textContainer = document.getElementById('introtext');
@@ -24,7 +22,6 @@ function printJsonContent(data) {
     textElement.innerHTML = `
         <h1>${title}</h1>
         <p>${content}</p>
-        <a href="${link}">${linktext}</a>
         <p>${cta}</p>`;
         textContainer.appendChild(textElement);
       };
