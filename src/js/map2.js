@@ -25,7 +25,7 @@ function printJsonContent(data) {
         <h1>${title}</h1>
         <p>${content}</p>
         <a href="${link}">${linktext}</a>
-        <p>${cta}`;
+        <p>${cta}</p>`;
         textContainer.appendChild(textElement);
       };
 
