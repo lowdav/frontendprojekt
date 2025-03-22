@@ -24,15 +24,12 @@ function printJsonContent(data) {
     textElement.innerHTML = `
         <h1>${title}</h1>
         <p>${content}</p>
-        <a href="${link}">${linktext}</a>`;
-
+        <a href="${link}">${linktext}</a>
+        <p>${cta}`;
         textContainer.appendChild(textElement);
-        ctaElement.textContent = cta;
       };
+
 printJsonContent(introText);
-
-
-
 
 
 /**
@@ -44,7 +41,6 @@ document.getElementById("icon").addEventListener("click", () => {
     console.log("Klick på ikonen registrerat");
     icon.classList.add("rotate");
     document.getElementById("intro").classList.add("fade-out");
-    document.getElementById("cta").classList.add("fade-out");
     startMap(3000);
 });
 

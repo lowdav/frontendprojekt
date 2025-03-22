@@ -1,5 +1,11 @@
 @use '/src/css/sass/variables' as *;
 
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 html {
     background-color: $htmlbackground;
 }
@@ -15,21 +21,21 @@ main {
 }
 
 .intro{
-max-width: 60ch;
-padding: 15px;
+width: 60ch;
+max-width: 100%;
+padding: 20px;
 margin: auto;
 
-a {
-    color: $linkcolor;
-}
-
-p {
-    line-height: 1.4;
-}
-
+    a {
+        color: $linkcolor;
+    }
+    p {
+        line-height: 1.4;
+    }
 }
 
 #icon {
+    max-width: 100%;
     cursor: pointer;
 }
 
@@ -39,12 +45,6 @@ img{
     display: block;
     margin: auto;
     }
-
-#cta{
-    font-weight: 700;
-    padding-top: 50px;
-    margin: 0;
-}
 
 #pic-container{
     max-width: 100%;
@@ -59,8 +59,6 @@ img{
     }
 }
 
-
-
 @keyframes spin {
     from {
         transform: rotate(0deg);
@@ -74,7 +72,6 @@ img{
     animation: spin 3s linear forwards;
 }
 
-
 @keyframes fade-out {
     0% { opacity: 1; }
     100% { opacity: 0; visibility: hidden; }
@@ -83,9 +80,6 @@ img{
 .fade-out {
     animation: fade-out 3s forwards;
 }
-
-
-
 
 @media (min-width: 1000px) {
     .wrapper{
