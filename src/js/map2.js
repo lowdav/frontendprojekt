@@ -1,9 +1,36 @@
 //importera ikon med Parcel för senare användning som googlemaps-ikon.
 import issIcon from "../img/iss.png";
+import introText from '../data.json';
 
 const googleApiKey = "AIzaSyB5d-KsEdbbAlcWWLcjCptAxYjqCLBHUqU";
 
 let lat, lon, temperature, locationName, altitude, velocity, visibility, timestamp;
+
+
+/**
+ * Skriver ut innehållet från json-fil till startsidan.
+ * @param {object} data 
+ */
+function printJsonContent(data) {
+    const title = data.title;
+    const content = data.content;
+    const link = data.link;
+    const linktext = data.linktext;
+    const cta = data.cta;
+
+    const textContainer = document.getElementById('introtext');
+    const ctaElement = document.getElementById('cta');
+    const textElement = document.createElement('div');
+    textElement.innerHTML = `
+        <h1>${title}</h1>
+        <p>${content}</p>
+        <a href="${link}">${linktext}</a>
+        <p>${cta}</p>`;
+        textContainer.appendChild(textElement);
+      };
+
+printJsonContent(introText);
+
 
 /**
  * Eventlyssnare för att lyssna efter klick på ikonen och starta
@@ -13,6 +40,7 @@ let lat, lon, temperature, locationName, altitude, velocity, visibility, timesta
 document.getElementById("icon").addEventListener("click", () => {
     console.log("Klick på ikonen registrerat");
     icon.classList.add("rotate");
+    document.getElementById("intro").classList.add("fade-out");
     startMap(3000);
 });
 
@@ -29,6 +57,7 @@ function startMap(delay) {
         getISSData();
     }, delay);
 }
+
 
 /**
  * Hämta data om ISS
@@ -110,6 +139,7 @@ async function loadPosition() {
             getTemperature(lat, lon),
         ]);
 
+        
         printInfo();
 
     } catch(error) {

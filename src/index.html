@@ -3,37 +3,34 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Follow the space station</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     <link id="themestyle" rel="stylesheet" href="css/style.scss">
+    <title>Follow the space station</title>
 </head>
   <body>
     <main>
       <div id="wrapper" class="wrapper">
       <div id="intro" class="intro">
-        <h1>Följ internationella rymdstationen ISS i realtid</h1>
-        <p>
-        <ul>
-          <li>ISS koordinater och information om hastighet, höjd och synlighet hämtas från ett API.</li>
-          <li>Om den första datakällan inte kan leverera svar hämtas koordinater från ett sekundärt API som endast har koordinater.</li>
-          <li>Koordinaterna används för att hämta en Google-karta över platsen och placera ut en ikon föreställande ISS vid aktuell position på kartan.</li>
-          <li>Koordinaterna används igen för så kallad reverse geokodning, som hämtar informaton om vilken plats koordinaterna tillhör. Även detta från Google, men från ett annat API.</li>
-          <li>Ett tredje API hämtar aktuell temperatur för platsen.</li>
-        </ul>
-        <a href="docs/index.html">Dokumentation med JSDoc</a>
+        <div id="introtext"></div>
         </div>
         <div id="icon-container">
-        <p class="bold">Klicka på ISS för att starta!</p> 
         <img id="icon" src="img/iss_xl.png" alt="ISS-ikon">
+      </div>
+      <div id="pic-container">
+        <picture>
+          <source srcset="./img/earth.jpg?as=avif" type="image/avif">
+          <source srcset="./img/earth.jpg?as=webp" type="image/webp">
+          <source srcset="./img/earth.jpg" type="image/jpeg">
+          <img src="./img/earth.jpg" alt="Jorden sedd från rymden">
+        </picture>
       </div>
       </div>
         <div id="map-container" class="map-container">
             <div id="map"></div>
-            
         </div>
         <div id="info-container" class="info-container">
         </div>
     </main>
-    
     <script type="module" src="js/map2.js"></script>
   </body>
 </html>

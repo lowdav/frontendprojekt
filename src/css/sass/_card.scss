@@ -1,18 +1,18 @@
+@use '/src/css/sass/variables' as *;
+
 .info-container {
     margin: 10px;
     text-align: center;
 }
 
 .card {
-    background: rgb(255, 255, 255, 0.9);
+    background: $cardbackground;
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     p{
         padding: 10px;
     }
 }
-
-
 
 @keyframes flipIn {
     from {
@@ -43,7 +43,7 @@
 .card:nth-child(9) { animation-delay: 0.9s; }
 
 .card:last-child {
-    color: red;
+    color: $lastcard;
 }
 
 
