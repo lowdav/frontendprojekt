@@ -1,7 +1,7 @@
   {
     "title": "Följ inter&shy;nationella rymd&shy;stationen ISS i realtid",
     "content": "Denna applikation visar dig var ISS befinner sig.",
-    "link": "js/out/index.html",
+    "link": "/out/index.html",
     "linktext": "Dokumentation med JSDoc",
     "cta": "Klicka på ISS för att starta!"
   }
