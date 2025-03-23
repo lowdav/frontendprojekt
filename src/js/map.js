@@ -23,8 +23,6 @@ document.getElementById('btn').addEventListener('click', () => {
     icon.classList.add("rotate");
     document.getElementById("intro").classList.add("fade-out");
     startMap(3000);
-
-    console.log(googleApiKey);
   });
 
 /**
@@ -37,7 +35,6 @@ function printJsonContent(data) {
     const cta = data.cta;
 
     const textContainer = document.getElementById('introtext');
-    const ctaElement = document.getElementById('cta');
     const textElement = document.createElement('div');
     textElement.innerHTML = `
         <h1>${title}</h1>
@@ -46,12 +43,11 @@ function printJsonContent(data) {
         textContainer.appendChild(textElement);
       };
 
-printJsonContent(introText);
-
-
-
-
-
+ //Säkerställer att sidan hunnit laddas innan DOM-manipulation.
+      window.addEventListener("load", () => {
+        printJsonContent(introText);
+      });
+      
 /**
  * Fördröjning av inhämtning av data samt döljer introsidan och 
  * tar fram kartan. 
@@ -80,7 +76,6 @@ async function getISSData() {
         }
 
         const data = await response.json();
-        console.log("ISS Data:", data);
 
         lat = data.latitude;
         lon = data.longitude;
@@ -99,11 +94,6 @@ async function getISSData() {
         } else {
             visibility = "ISS kan just nu inte ses från jorden";
         }
-        console.log(`Höjd ${altitude}`);
-        console.log(`Hastighet ${velocity}`);
-        console.log(visibility);
-        console.log(timestamp);
-
         await Promise.all([
             initMap(lat, lon),
             getLocationInfo(lat, lon),
@@ -131,14 +121,10 @@ async function loadPosition() {
             //Glöm inte - lägg till användarinfo om detta händer
         }
         const location = await response.json();
-        console.log(location);
 
         // OBS att open-notify skikar svar som sträng, inte nummer, så man måste använda parseFloat.
         lat = parseFloat(location.iss_position.latitude);
         lon = parseFloat(location.iss_position.longitude);
-
-        console.log(lat);
-        console.log(lon);
 
         await Promise.all([
             initMap(lat, lon),
@@ -210,7 +196,6 @@ async function getLocationInfo(lat, lon) {
     try {
         const response = await fetch(url);
         const data = await response.json();
-        console.log(data);
 
         if (data.status === "OK" && data.results.length > 0) {
             locationName = null;
@@ -219,7 +204,6 @@ async function getLocationInfo(lat, lon) {
             for (let result of data.results) {
                 if (result.types.includes("country")) {
                     locationName = result.formatted_address;
-                    console.log(locationName);
                     break;
                 }
             }
@@ -229,7 +213,6 @@ async function getLocationInfo(lat, lon) {
                 for (let result of data.results) {
                     if (result.types.includes("natural_feature") || result.types.includes("locality") || result.types.includes("administrative_area_level_1")) {
                         locationName = result.formatted_address;
-                        console.log(locationName);
                         break;
                     }
                 }
@@ -237,7 +220,6 @@ async function getLocationInfo(lat, lon) {
             // Om inget finns lagra fallback-meddelande
             if (!locationName) {
             locationName = "Okänd plats - ISS befinner sig troligen över hav";
-            console.log(locationName);
         }
         } else {
             console.log("Ingen plats hittades.");
@@ -261,10 +243,8 @@ async function getLocationInfo(lat, lon) {
             const data = await response.json();
     
             if (data.current && data.current.temperature_2m !== undefined) {
-                console.log(`Temperatur vid (${lat}, ${lon}): ${data.current.temperature_2m}°C`);
                 temperature = data.current.temperature_2m;
             } else {
-                console.log("Kunde inte hämta väderdata.");
                 temperature = "Hittade ingen väderdata för platsen";
             }
         } catch (error) {
@@ -304,7 +284,6 @@ async function getLocationInfo(lat, lon) {
     
         document.querySelectorAll(".card").forEach(card => {
             card.addEventListener("click", () => {
-                console.log("Klick på kort registrerat");
                 getISSData(); 
             });
         });
