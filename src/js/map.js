@@ -43,10 +43,9 @@ function printJsonContent(data) {
         textContainer.appendChild(textElement);
       };
 
- //Säkerställer att sidan hunnit laddas innan DOM-manipulation.
-      window.addEventListener("load", () => {
-        printJsonContent(introText);
-      });
+
+printJsonContent(introText);
+
       
 /**
  * Fördröjning av inhämtning av data samt döljer introsidan och 
