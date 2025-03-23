@@ -2,10 +2,30 @@
 import issIcon from "../img/iss.png";
 import introText from '../data.json';
 
-const googleApiKey = "AIzaSyB5d-KsEdbbAlcWWLcjCptAxYjqCLBHUqU";
+let googleApiKey, lat, lon, temperature, locationName, altitude, velocity, visibility, timestamp;
 
-let lat, lon, temperature, locationName, altitude, velocity, visibility, timestamp;
 
+/**
+ * Eventlyssnare för att lyssna efter klick knappen och starta
+ * animering av ikonen. startMap anropas med tid som den ska fördröjas 
+ * så att ikonen hinner rotera klart.
+ * Inmatat värde används som API-nyckel för Google.
+ */
+document.getElementById('btn').addEventListener('click', () => {
+
+   googleApiKey = document.getElementById('input').value;
+    
+   if (googleApiKey === "" || googleApiKey.length != 39) {
+        alert("API nyckel saknas eller är fel antal tecken :) ");
+        return;
+      }
+
+    icon.classList.add("rotate");
+    document.getElementById("intro").classList.add("fade-out");
+    startMap(3000);
+
+    console.log(googleApiKey);
+  });
 
 /**
  * Skriver ut innehållet från json-fil till startsidan.
@@ -29,17 +49,7 @@ function printJsonContent(data) {
 printJsonContent(introText);
 
 
-/**
- * Eventlyssnare för att lyssna efter klick på ikonen och starta
- * animering av ikonen. startMap anropas med tid som den ska fördröjas 
- * så att ikonen hinner rotera klart.
- */
-document.getElementById("icon").addEventListener("click", () => {
-    console.log("Klick på ikonen registrerat");
-    icon.classList.add("rotate");
-    document.getElementById("intro").classList.add("fade-out");
-    startMap(3000);
-});
+
 
 
 /**
@@ -145,24 +155,22 @@ async function loadPosition() {
 }
 
 /**
- * Kod direkt hämtad från Google maps.
- * Dokumentation: https://developers.google.com/maps/documentation/javascript/adding-a-google-map
- */
-(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
-    key: googleApiKey,
-    v: "weekly",
-  });
-
-// Initiera och lägg till kartan
-let map;
-
-/**
+ * Initiera och lägg till kartan. 
  * Kod hämtad från Google maps API dokumentation, men jag har ersatt statiskt exempel med variabler för
  * latitiud och longitud.
+ * Dokumentation: https://developers.google.com/maps/documentation/javascript/adding-a-google-map
  * @param {number} lat för platsen
  * @param {number} lon för platsen
  */
 async function initMap(lat, lon) {
+    
+let map;
+
+    (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+        key: googleApiKey,
+        v: "weekly",
+      });
+
   // Position att visa
   const position = { lat: lat, lng: lon };
 

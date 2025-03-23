@@ -29,10 +29,39 @@ margin: auto;
     a {
         color: $linkcolor;
     }
+    a:hover {
+        color: $hooverColor;
+    }
     p {
         line-height: 1.4;
     }
 }
+
+input {
+    font-family: 'Courier New', Courier, monospace;
+    width: 100%;
+    max-width: 40ch;
+    height: 45px;
+    font-size: 20px;
+    border: none;
+    outline: none;
+}
+
+#btn {
+    background-color: white;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 15px 0;
+}
+
+#btn:hover {
+    background-color: $hooverColor;
+  }
 
 #icon {
     max-width: 100%;
