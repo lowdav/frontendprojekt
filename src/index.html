@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link id="themestyle" rel="stylesheet" href="css/style.scss">
     <title>Follow the space station</title>
 </head>
@@ -36,6 +39,11 @@
         <div id="info-container" class="info-container">
         </div>
     </main>
-    <script type="module" src="js/map.js"></script>
+    <script type="module">
+      window.addEventListener("load", () => {
+        import('./js/map.js');
+      });
+    </script>
+    
   </body>
 </html>
